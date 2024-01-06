@@ -26,3 +26,4 @@ Route::apiResource('/productos', ProductoController::class);
 
 // Auth
 Route::post('/registro', [AuthController::class, 'register']);
+

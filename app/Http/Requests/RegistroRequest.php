@@ -12,7 +12,7 @@ class RegistroRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -30,6 +30,17 @@ class RegistroRequest extends FormRequest
                 'confirmed',
                 PasswordRules::min(8)->letters()->symbols()->numbers()
             ],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name' => "El nombre es obligatorio",
+            'email.required' => "El email es obligatorio",
+            'email.email' => "El email debe tener un formato válido",
+            'email.unique' => "El email ya esta registrado",
+            'password' => "El password debe contener al menos 8 caracteres, 1 simbolo y 1 número",
         ];
     }
 }
