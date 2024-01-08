@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\RegistroRequest;
 
@@ -30,8 +32,26 @@ class AuthController extends Controller
         ];
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
+        $data = $request->validated();
+
+        // Comporbar password
+        if(!Auth::attempt($data)){
+            return response([
+                'errors' => ["El email o el password son incorrectos"]
+            ], 422);
+        }
+
+        // Autenticar al usuario y otorgarle el token
+        $user = Auth::user();
+
+        return [
+            'token' => $user->createToken('token')->plainTextToken,
+            'user' => $user
+        ];
+
+
 
     }
 
