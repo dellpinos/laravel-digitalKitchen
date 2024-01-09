@@ -17,8 +17,11 @@ use App\Http\Controllers\ProductoController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('/user', function(Request $request) {
+        return $request->user();
+    });
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 Route::apiResource('/categorias', CategoriaController::class);
