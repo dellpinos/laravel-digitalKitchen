@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductoCollection;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\ProductoCollection;
 
 class ProductoController extends Controller
 {
@@ -13,7 +14,10 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        return new ProductoCollection(Producto::all());
+
+        return new ProductoCollection(Producto::where('disponible', 1)->get());
+
+        
     }
 
     /**
@@ -37,7 +41,12 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //
+        $producto->disponible = 0;
+        $producto->save();
+
+        return [
+            'producto' => $producto
+        ];
     }
 
     /**
